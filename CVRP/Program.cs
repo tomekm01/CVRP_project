@@ -9,13 +9,14 @@ public class Node
     public int Y { get; set; }
     public int Demand { get; set; }
 
+    public int DepotIndex { get; set; }
     public override string ToString()
     {
         return $"Node {Id}: ({X}, {Y}), Demand: {Demand}";
     }
 }
 
-public class VRPInstance
+public class CVRPInstance
 {
     public int Dimension { get; set; }
     public int Capacity { get; set; }
@@ -34,9 +35,15 @@ public class Program
 {
     public static void Main()
     {
-        string filePath = "C:\\Users\\pc\\Desktop\\A\\A-n32-k5.vrp";
-        VRPInstance instance = new VRPInstance();
+        CVRPInstance instance = GetDataFromFile();
+        Console.WriteLine($"Dimension: {instance.Dimension}, Capacity: {instance.Capacity}");
+        instance.PrintNodes();
+    }
 
+    public static CVRPInstance GetDataFromFile()
+    {
+        string filePath = "C:\\Users\\tomas\\OneDrive\\Pulpit\\A\\A-n32-k5.vrp";
+        CVRPInstance instance = new CVRPInstance();
         using (StreamReader reader = new StreamReader(filePath))
         {
             string line;
@@ -100,8 +107,6 @@ public class Program
                 }
             }
         }
-
-        Console.WriteLine($"Dimension: {instance.Dimension}, Capacity: {instance.Capacity}");
-        instance.PrintNodes();
+        return instance;
     }
 }

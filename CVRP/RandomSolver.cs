@@ -13,7 +13,7 @@ class RandomSolver : SolverBase
         allRoutes = new int[triesAmount][];
         bestDistance = double.MaxValue;
     }
-    public int[][] Solve()
+    public int[][] Solve() //Generate set amount of random routes and remember the best one
     {
         for (int i = 0; i < triesAmount; i++)
         {

@@ -3,7 +3,7 @@
 namespace CVRP;
 public class TabuSolver : SolverBase
 {
-    private int tabuSize = 300; // Number of iterations before allowing a move again
+    private int tabuSize = 10; // Number of iterations before allowing a move again
     private int iterations = 10000;
     private List<(int, int)> tabuList = new List<(int, int)>();
 
@@ -15,7 +15,7 @@ public class TabuSolver : SolverBase
     public int[][] Solve()
     {
         int numNodes = instance.Dimension;
-        int[] currentRoute = GetRandomRoute();
+        int[] currentRoute = GetRandomRoute(); //Initial route - randomly chosen
         bestRoute = (int[])currentRoute.Clone();
         double bestDistance = CalculateTotalDistance(bestRoute);
 

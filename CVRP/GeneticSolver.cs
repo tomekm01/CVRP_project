@@ -4,11 +4,11 @@ namespace CVRP;
 
 public class GeneticSolver : SolverBase
 {
-    private int populationSize = 100;
-    private int generations = 100;
-    private double mutationRate = 0.1; // Probability of mutation
-    private double crossoverRate = 0.75; // Probability of crossover
-    private int tournamentSize = 5;
+    private int populationSize = 200;
+    private int generations = 50;
+    private double mutationRate = 0.05;
+    private double crossoverRate = 0.92;
+    private int tournamentSize = 7;
     private Random random;
     public GeneticSolver(CVRPInstance instance) : base(instance)
     {
@@ -43,8 +43,14 @@ public class GeneticSolver : SolverBase
                 if (random.NextDouble() < crossoverRate)
                 {
                     // Perform crossover
-                    int[] parent1 = route;
-                    int[] parent2 = SelectParent(population);
+                    // Select first parent
+                    int[] parent1 = SelectParent(population);
+
+                    int[] parent2;
+                    do
+                    {
+                        parent2 = SelectParent(population);
+                    } while (parent1 == parent2); // Ensure they are not the same
                     int[] offspring = OrderedCrossover(parent1, parent2);
                     if (random.NextDouble() < mutationRate)
                     //Perform mutation
@@ -101,13 +107,11 @@ public class GeneticSolver : SolverBase
     }
 
     // Perform the Capacity - aware Ordered Crossover (OX) operator
-
     private int[] OrderedCrossover(int[] parent1, int[] parent2)
     {
-        Console.WriteLine("Starting crossover");
         int numNodes = instance.Dimension;
-        int[] offspring = new int[numNodes];
-        bool[] visited = new bool[numNodes];
+        int[] offspring = new int[numNodes - 1]; // Exclude depot
+        bool[] visited = new bool[numNodes]; // Track visited nodes (including depot)
 
         // Step 1: Extract customers from both parents (no depots)
         int[] noDepotParent1 = ExtractCustomers(parent1);
@@ -117,8 +121,10 @@ public class GeneticSolver : SolverBase
         int start = random.Next(0, noDepotParent1.Length);
         int end = random.Next(start + 1, noDepotParent1.Length);
 
+        // Mark uninitialized positions
+        Array.Fill(offspring, -1);
+
         // Copy the subsequence from parent1 into offspring
-        Array.Fill(offspring, -1); // Ensure unfilled slots are recognizable
         for (int i = start; i < end; i++)
         {
             offspring[i] = noDepotParent1[i];
@@ -144,15 +150,14 @@ public class GeneticSolver : SolverBase
         // Step 4: Rebuild the full route by adding depots back and ensuring legality
         int[] legalOffspring = RepairRoute(offspring);
 
-        Console.WriteLine($"Ending crossover. {String.Join(",", legalOffspring)}");
         return legalOffspring;
     }
 
 
-    // Perform mutation by swapping two nodes, ensuring the capacity is valid
+
+    // Perform mutation by swapping two nodes
     private int[] Mutate(int[] route)
     {
-        Console.WriteLine("Starting mutation");
         // Step 1: Extract customers (remove depots)
         int[] mutatedRoute = new int[route.Length];
         int[] noDepotRoute = ExtractCustomers(route);
@@ -174,7 +179,6 @@ public class GeneticSolver : SolverBase
 
         // Step 3: Rebuild the mutated route with depots and enforce capacity constraints
         mutatedRoute = RepairRoute(noDepotRoute);
-        Console.WriteLine("Finished mutation.");
         return mutatedRoute;
     }
 

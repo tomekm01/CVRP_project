@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.IO;
 
 namespace CVRP;
@@ -107,10 +106,6 @@ public class Program
         CVRPInstance instance = new CVRPInstance();
         instance.Nodes = new Node[0];
 
-    public static CVRPInstance GetDataFromFile()
-    {
-        string filePath = "C:\\Users\\tomas\\OneDrive\\Pulpit\\A\\A-n32-k5.vrp";
-        CVRPInstance instance = new CVRPInstance();
         using (StreamReader reader = new StreamReader(filePath))
         {
             string line;
@@ -216,4 +211,3 @@ public class Program
 
 
 }
-

@@ -81,18 +81,18 @@ public class Program
                     //SaveDistancesToCSV(CalculateAllRouteDistances(instance, solutions), "C:\\Users\\pc\\source\\repos\\CVRP\\CVRP\\RandomOut.csv");
                     break;
                 case 3:
-                    Console.WriteLine("Tabu search selected (not implemented yet).");
+                    Console.WriteLine("Tabu search selected.");
                     TabuSolver tSolver = new TabuSolver(instance);
                     int[][] tSolutions = tSolver.Solve();
                     tSolver.PrintSolution(tSolver.GetBestRoute());
-                    //SaveDistancesToCSV(CalculateAllRouteDistances(instance, tSolutions), "C:\\Users\\pc\\source\\repos\\CVRP\\CVRP\\TabuOut.csv");
+                    //SaveDistancesToCSV(CalculateAllRouteDistances(instance, tSolutions), "C:\Users\tomas\source\repos\CVRP_project\CVRP\TabuOut.csv");
                     break;
                 case 4:
-                    Console.WriteLine("Genetic algorithm selected (not implemented yet).");
+                    Console.WriteLine("Genetic algorithm selected.");
                     GeneticSolver gSolver = new GeneticSolver(instance);
                     int[][] gSolutions = gSolver.Solve();
                     gSolver.PrintSolution(gSolver.GetBestRoute());
-                    //SaveDistancesToCSV(CalculateAllRouteDistances(instance, gSolutions), "C:\\Users\\pc\\source\\repos\\CVRP\\CVRP\\GeneticOut.csv");
+                    //SaveDistancesToCSV(CalculateAllRouteDistances(instance, gSolutions), "C:\Users\tomas\source\repos\CVRP_project\CVRP\GeneticOut.csv");
                     break;
             }
         }
